@@ -1,5 +1,6 @@
 package _45_reverseVowels
 
+import "bytes"
 
 /*
 	编写一个函数，以字符串作为输入，反转该字符串中的元音字母。
@@ -26,9 +27,43 @@ func reverseVowels(s string) string {
 	}
 	chars := []byte(s)
 	i, j := 0, len(chars)-1
-	for i < j {
-		s[i], s[j] = s[j], s[i]
-		i++
-		j--
+	for {
+		for {
+			switch chars[i] {
+			case 'a','e','i','o','u','A','E','I','O','U':
+				goto charsJ
+			default:
+				i++
+				if i > j {
+					goto end
+				}
+			}
+		}
+		charsJ:
+		for {
+			switch chars[j] {
+			case 'a','e','i','o','u','A','E','I','O','U':
+				goto end
+			default:
+				j--
+				if i > j {
+					goto end
+				}
+			}
+		}
+		end:
+		if i < j {
+			chars[i],chars[j] = chars[j],chars[i]
+			i++
+			j--
+		} else {
+			break
+		}
 	}
+	buff := bytes.NewBuffer(chars)
+	return buff.String()
+}
+
+func ReverseVowels(s string) string {
+	return reverseVowels(s)
 }
